@@ -1,0 +1,231 @@
+/* ChatGPT UI Clone Custom Styles */
+
+:root {
+  /* Chat Colors */
+  --chat-user-bg: hsl(var(--primary));
+  --chat-user-text: hsl(var(--primary-foreground));
+  --chat-assistant-bg: hsl(var(--muted));
+  --chat-assistant-text: hsl(var(--foreground));
+  
+  /* Sidebar */
+  --sidebar-width: 280px;
+  --sidebar-width-collapsed: 60px;
+  
+  /* Message Spacing */
+  --message-spacing: 1rem;
+  --message-padding: 1rem;
+  --message-border-radius: 0.75rem;
+  
+  /* Animation Durations */
+  --sidebar-transition: 0.3s ease-in-out;
+  --message-transition: 0.2s ease-out;
+  --typing-animation: 1.4s ease-in-out infinite;
+}
+
+/* Dark mode overrides */
+[data-theme="dark"] {
+  --chat-assistant-bg: hsl(var(--secondary));
+}
+
+/* Sidebar Styles */
+.chat-sidebar {
+  width: var(--sidebar-width);
+  transition: width var(--sidebar-transition), transform var(--sidebar-transition);
+  border-right: 1px solid hsl(var(--border));
+}
+
+.chat-sidebar.collapsed {
+  width: var(--sidebar-width-collapsed);
+}
+
+.chat-sidebar.mobile-hidden {
+  transform: translateX(-100%);
+}
+
+/* Message Styles */
+.message-bubble {
+  border-radius: var(--message-border-radius);
+  padding: var(--message-padding);
+  margin-bottom: var(--message-spacing);
+  transition: all var(--message-transition);
+  animation: fadeInUp 0.3s ease-out;
+}
+
+.message-bubble.user {
+  background-color: var(--chat-user-bg);
+  color: var(--chat-user-text);
+  margin-left: auto;
+  margin-right: 0;
+  max-width: 80%;
+}
+
+.message-bubble.assistant {
+  background-color: var(--chat-assistant-bg);
+  color: var(--chat-assistant-text);
+  margin-left: 0;
+  margin-right: auto;
+  max-width: 85%;
+}
+
+/* Message Input */
+.message-input-container {
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--message-border-radius);
+  transition: border-color var(--message-transition);
+  background: hsl(var(--background));
+}
+
+.message-input-container:focus-within {
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 0 2px hsla(var(--primary) / 0.1);
+}
+
+.message-input {
+  resize: none;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: inherit;
+  line-height: 1.5;
+  min-height: 44px;
+  max-height: 200px;
+}
+
+.message-input::placeholder {
+  color: hsl(var(--muted-foreground));
+}
+
+/* Typing Indicator */
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 16px;
+}
+
+.typing-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: hsl(var(--muted-foreground));
+  animation: typing var(--typing-animation);
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes typing {
+  0%, 60%, 100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  30% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+/* Scrollbar Styles */
+.chat-messages::-webkit-scrollbar {
+  width: 4px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 2px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
+}
+
+/* Hover Effects */
+.message-bubble:hover .message-actions {
+  opacity: 1;
+}
+
+.message-actions {
+  opacity: 0;
+  transition: opacity var(--message-transition);
+}
+
+/* Chat History Item */
+.chat-history-item {
+  border-radius: 0.5rem;
+  transition: all var(--message-transition);
+  cursor: pointer;
+}
+
+.chat-history-item:hover {
+  background-color: hsl(var(--accent));
+}
+
+.chat-history-item.active {
+  background-color: hsl(var(--accent));
+  border-color: hsl(var(--primary));
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  :root {
+    --sidebar-width: 100vw;
+    --message-padding: 0.75rem;
+  }
+  
+  .message-bubble {
+    max-width: 90%;
+  }
+  
+  .message-bubble.user {
+    max-width: 85%;
+  }
+}
+
+/* Loading States */
+.loading-shimmer {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--muted)) 25%,
+    hsl(var(--muted) / 0.5) 50%,
+    hsl(var(--muted)) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Focus Styles for Accessibility */
+.chat-button:focus-visible,
+.chat-history-item:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+}
